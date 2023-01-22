@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package responses;
+
+message EmptyResponse {
+    string status = 1;
+}
+

@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# GRPC Comparison
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Compare side-by-side the request speed of grpc-web vs normal rest requests
 
-## Available Scripts
 
-In the project directory, you can run:
+## How to compile protos
 
-### `npm start`
+Install:
+1. [protoc-gen-grpc-web](https://github.com/grpc/grpc-web/releases)
+    * Note: you can also globally install it through node with `npm i -g protoc-gen-grpc-web` and run the same commands
+2. [protoc](https://grpc.io/docs/protoc-installation/)
+3. [protobuf-javascript](https://github.com/protocolbuffers/protobuf-javascript/releases)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Ensure that all of these are findable in the PATH
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+For Windows users, it is recommended to use WSL/WSL2 for compilation due to missing libraries in the current version [github issue](https://github.com/protocolbuffers/protobuf-javascript/issues/142)
 
-### `npm test`
+Run the CompileProtos.sh file and enter the inputs to generate the client files
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# How to run the app
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Open three terminals
+    * One for the client 
+    * One for the rest-server
+    * One for the grpc-server
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Run the grpc-server along with the envoy proxy with the commands:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+# Envoy proxy
+docker run -d -v "$(pwd)"/envoy.yaml:/etc/envoy/envoy.yaml:ro \
+    -p 8080:8080 -p 9901:9901 envoyproxy/envoy:v1.22.0
 
-### `npm run eject`
+# Server
+node index.js
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Run the rest-server with `node index.js`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Run the react app with `npm run start`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+5. Have fun!
