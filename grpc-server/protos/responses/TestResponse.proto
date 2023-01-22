@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package responses;
+
+message TestResponse {
+    message Person {
+        string name = 1;
+        string job = 2;
+        string favorite_food = 3;
+    }
+}
+

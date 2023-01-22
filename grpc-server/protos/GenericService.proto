@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package services;
+
+import "requests/EmptyRequest.proto";
+import "requests/DataRequest.proto";
+import "responses/PingResponse.proto";
+import "responses/EmptyResponse.proto";
+import "responses/TestResponse.proto";
+
+service GenericService {
+    rpc Ping(requests.EmptyRequest) returns (responses.PingResponse);
+    rpc Data(requests.DataRequest) returns (responses.EmptyResponse);
+    rpc TestData(requests.EmptyRequest) returns (responses.TestResponse);
+}
